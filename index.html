@@ -23,18 +23,17 @@
     a:hover {
         text-decoration: underline;
     }
-    /* Ensure the image is responsive */
     img {
         max-width: 100%;
         height: auto;
     }
     /* Media query for mobile devices */
     @media screen and (max-width: 600px) {
-        img {
-            float: none !important; /* Remove float */
-            display: block; /* Make image a block element */
-            margin: 0 auto 15px auto; /* Center image with margins */
-            width: 50%; /* Adjust width for mobile, tweak as needed */
+        body img[alt="Profile Photo"] {
+            float: none !important; /* Override inline float */
+            display: block !important; /* Ensure block-level for centering */
+            margin: 15px auto; /* Center with top/bottom margin for spacing */
+            width: 200px; /* Fixed width for consistency, adjust as needed */
         }
     }
 </style>
