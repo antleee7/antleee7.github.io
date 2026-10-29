@@ -1,0 +1,24 @@
+name: Gallery checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test photo uploads
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Build with the Pages Jekyll builder
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Verify the built gallery
+        run: python3 tests/check_build.py _site
