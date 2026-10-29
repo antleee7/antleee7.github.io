@@ -96,7 +96,9 @@ from the filename and displays no caption. Commit metadata edits normally.
 The Gallery checks workflow runs the upload-script tests and the same Jekyll
 build action used by Pages. It checks that every discovered photograph is present,
 every local image link works, and all supplied captions and descriptions survive
-the build. This workflow checks changes; the existing Pages deployment stays in
+the build. It also adds a temporary photo with spaces, brackets, a hash sign, and
+an uppercase extension, without editing HTML or metadata, to verify discovery,
+filename escaping, and fallback alt text. This workflow checks changes; the existing Pages deployment stays in
 charge of publishing.
 
 For the upload-script tests locally:

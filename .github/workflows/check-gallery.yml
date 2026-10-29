@@ -15,6 +15,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Test photo uploads
         run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Add a discovery fixture without editing HTML or metadata
+        run: |
+          python3 - <<'PY'
+          from shutil import copyfile
+          copyfile('photos/spider-web.jpg', 'photos/Upload [test] #1.JPG')
+          PY
       - name: Build with the Pages Jekyll builder
         uses: actions/jekyll-build-pages@v1
         with:
