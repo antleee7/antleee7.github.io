@@ -1,0 +1,5 @@
+# Keep local maintenance tools out of the published website.
+exclude:
+  - upload-photos.py
+  - PHOTO-GALLERY.md
+  - tests

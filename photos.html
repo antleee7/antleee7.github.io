@@ -1,4 +1,6 @@
-
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,18 +78,24 @@
     <p>A collection of my favorite photographs.</p>
 
     <div class="gallery">
-
-
-
-
+        {% assign image_extensions = '.jpg,.jpeg,.png,.gif,.webp,.avif' | split: ',' %}
+        {% assign photos = site.static_files | sort: 'path' %}
+        {% for photo in photos %}
+        {% assign parts = photo.path | split: '/' %}
+        {% assign extension = photo.extname | downcase %}
+        {% if parts.size == 3 and parts[1] == 'photos' and image_extensions contains extension %}
+        {% assign metadata = site.data.photos[photo.name] %}
+        {% assign fallback_alt = photo.basename | replace: '-', ' ' | replace: '_', ' ' %}
+        {% assign filename = photo.name | url_encode | replace: '+', '%20' %}
+        {% assign photo_url = '/photos/' | append: filename | relative_url %}
         <div class="photo">
-            <a href="photos/milkyway.jpg" target="_blank">
-                <img src="photos/milkyway.jpg" alt="Milky Way">
+            <a href="{{ photo_url | escape }}" target="_blank" rel="noopener">
+                <img src="{{ photo_url | escape }}" alt="{{ metadata.alt | default: fallback_alt | escape }}" loading="lazy" decoding="async">
             </a>
-            <p>Somewhere, May 2022</p>
+            {% if metadata.caption %}<p>{{ metadata.caption | escape }}</p>{% endif %}
         </div>
-
-
+        {% endif %}
+        {% endfor %}
     </div>
 </body>
 </html>
