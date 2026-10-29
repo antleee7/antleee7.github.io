@@ -1,14 +1,8 @@
 {
-  "milkyway.jpg": {
-    "alt": "Milky Way",
-    "caption": "Somewhere, May 2022"
-  },
   "night-sky.jpg": {
-    "alt": "Milky Way above dark hills under a starry night sky",
-    "caption": "Milky Way night sky"
+    "alt": "Milky Way above dark hills under a starry night sky"
   },
   "spider-web.jpg": {
-    "alt": "A spider at the center of its web beside green leaves",
-    "caption": "Spider web"
+    "alt": "A spider at the center of its web beside green leaves"
   }
 }

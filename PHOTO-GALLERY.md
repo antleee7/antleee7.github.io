@@ -73,30 +73,29 @@ If a push fails, your local commit is retained. Fix SSH/network access, use
 `git pull --rebase` if the remote advanced, and retry `git push`. Re-running the
 script with the same files skips them; it does not retry a previously failed push.
 
-## Optional captions and descriptions
+## Optional screen-reader descriptions
 
-`_data/photos.json` preserves the original caption and contains descriptions for
-the first two added photos. New photos appear without any entry in that file.
-To supply a caption or a better screen-reader description later, add an entry
-keyed by the exact filename:
+The gallery displays photos without captions. `_data/photos.json` contains
+screen-reader descriptions for the first two photos. New photos appear without
+any entry in that file. To supply a better screen-reader description later,
+add an entry keyed by the exact filename:
 
 ```json
 "photo one.JPG": {
-  "alt": "A short description of the photograph",
-  "caption": "An optional caption"
+  "alt": "A short description of the photograph"
 }
 ```
 
 Keep the complete file valid JSON, including commas between entries. Text is
 escaped before being rendered. Without metadata, the gallery derives alt text
-from the filename and displays no caption. Commit metadata edits normally.
+from the filename. Commit metadata edits normally.
 
 ## Checking the gallery
 
 The Gallery checks workflow runs the upload-script tests and the same Jekyll
 build action used by Pages. It checks that every discovered photograph is present,
-every local image link works, and all supplied captions and descriptions survive
-the build. It also adds a temporary photo with spaces, brackets, a hash sign, and
+every local image link works, supplied descriptions survive the build, and no
+photo captions are rendered. It also adds a temporary photo with spaces, brackets, a hash sign, and
 an uppercase extension, without editing HTML or metadata, to verify discovery,
 filename escaping, and fallback alt text. This workflow checks changes; the existing Pages deployment stays in
 charge of publishing.

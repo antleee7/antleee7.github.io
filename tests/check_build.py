@@ -19,13 +19,14 @@ class GalleryParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "div" and attrs.get("class") == "photo":
-            self.card = {"caption": ""}
+            self.card = {"caption": "", "paragraphs": 0}
             self.cards.append(self.card)
         elif self.card is not None:
             if tag in {"a", "img"}:
                 self.card[tag] = attrs
             elif tag == "p":
                 self.caption = True
+                self.card["paragraphs"] += 1
 
     def handle_endtag(self, tag):
         if tag == "div":
@@ -41,6 +42,7 @@ class GalleryParser(HTMLParser):
 def check(build):
     source = (build / "photos.html").read_text(encoding="utf-8")
     assert "{%" not in source and "{{" not in source, "Unrendered Liquid in gallery"
+    assert "A collection of my favorite photographs." not in source
     parser = GalleryParser()
     parser.feed(source)
     expected = sorted(path.name for path in (ROOT / "photos").iterdir()
@@ -60,12 +62,12 @@ def check(build):
         assert link.get("rel") == "noopener"
         entry = metadata.get(filename, {})
         assert img["alt"] == entry.get("alt", Path(filename).stem.replace("-", " ").replace("_", " "))
-        assert card["caption"] == entry.get("caption", "")
+        assert card["paragraphs"] == 0, "Photo captions should not be rendered"
     assert found == expected, f"Expected {expected}, got {found}"
     assert (build / "index.html").is_file() and (build / "notes.html").is_file()
     assert not (build / "upload-photos.py").exists()
     assert not (build / "tests").exists()
-    print(f"Verified {len(found)} gallery photos, links, captions, alt text, and maintenance-file exclusions.")
+    print(f"Verified {len(found)} gallery photos, links, alt text, caption removal, and maintenance-file exclusions.")
 
 
 if __name__ == "__main__":
