@@ -4,8 +4,9 @@ GitHub Pages already builds this repository with Jekyll from the root of `main`.
 The gallery now discovers images directly inside `photos/` during that build.
 Copy or upload a JPG, JPEG, PNG, GIF, WebP, or AVIF there and commit it. Uppercase
 extensions and spaces in filenames work. No HTML changes, renaming, metadata
-entry, JavaScript, or new hosting service is required. Images appear alphabetically
-by filename; subfolders and non-image files are ignored. Avoid filenames starting
+entry, JavaScript, or new hosting service is required. The photos listed in
+`_data/photo_order.json` appear first, in that order. Other images are added after
+them alphabetically by filename; subfolders and non-image files are ignored. Avoid filenames starting
 with a dot or underscore, which Jekyll treats as special files.
 
 ## One-time setup for Git over SSH
@@ -73,6 +74,14 @@ If a push fails, your local commit is retained. Fix SSH/network access, use
 `git pull --rebase` if the remote advanced, and retry `git push`. Re-running the
 script with the same files skips them; it does not retry a previously failed push.
 
+## Optional display order
+
+`_data/photo_order.json` preserves the chosen order: night sky, spider web, then
+coastal overlook. To reorder photos, rearrange the exact filenames in that JSON
+list and commit it. New uploads do not require an entry: unlisted images still
+appear automatically after the listed photos. Duplicate entries are displayed
+only once, and entries for missing files are ignored. No image files need renaming.
+
 ## Optional screen-reader descriptions
 
 The gallery displays photos without captions. `_data/photos.json` contains
@@ -93,7 +102,7 @@ from the filename. Commit metadata edits normally.
 ## Checking the gallery
 
 The Gallery checks workflow runs the upload-script tests and the same Jekyll
-build action used by Pages. It checks that every discovered photograph is present,
+build action used by Pages. It checks that every discovered photograph is present in the chosen order,
 every local image link works, supplied descriptions survive the build, and no
 photo captions are rendered. It also adds a temporary photo with spaces, brackets, a hash sign, and
 an uppercase extension, without editing HTML or metadata, to verify discovery,

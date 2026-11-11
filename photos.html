@@ -59,6 +59,13 @@ layout: null
     <div class="gallery">
         {% assign image_extensions = '.jpg,.jpeg,.png,.gif,.webp,.avif' | split: ',' %}
         {% assign photos = site.static_files | sort: 'path' %}
+        {% assign ordered_photos = '' | split: ',' %}
+        {% for filename in site.data.photo_order %}
+        {% assign photo_path = '/photos/' | append: filename %}
+        {% assign ordered_photo = photos | where: 'path', photo_path %}
+        {% assign ordered_photos = ordered_photos | concat: ordered_photo %}
+        {% endfor %}
+        {% assign photos = ordered_photos | concat: photos | uniq %}
         {% for photo in photos %}
         {% assign parts = photo.path | split: '/' %}
         {% assign extension = photo.extname | downcase %}

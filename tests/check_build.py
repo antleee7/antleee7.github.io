@@ -48,6 +48,9 @@ def check(build):
     expected = sorted(path.name for path in (ROOT / "photos").iterdir()
                       if path.is_file() and path.suffix.lower() in EXTENSIONS
                       and not path.name.startswith((".", "_")))
+    order_path = ROOT / "_data/photo_order.json"
+    order = json.loads(order_path.read_text(encoding="utf-8")) if order_path.exists() else []
+    expected = list(dict.fromkeys(name for name in order + expected if name in expected))
     metadata = json.loads((ROOT / "_data/photos.json").read_text(encoding="utf-8"))
     found = []
     for card in parser.cards:
@@ -67,7 +70,7 @@ def check(build):
     assert (build / "index.html").is_file() and (build / "notes.html").is_file()
     assert not (build / "upload-photos.py").exists()
     assert not (build / "tests").exists()
-    print(f"Verified {len(found)} gallery photos, links, alt text, caption removal, and maintenance-file exclusions.")
+    print(f"Verified {len(found)} gallery photos, display order, links, alt text, caption removal, and maintenance-file exclusions.")
 
 
 if __name__ == "__main__":
